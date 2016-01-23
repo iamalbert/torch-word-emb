@@ -1,5 +1,5 @@
 package = "torch-word-emb"
-version = "1.0"
+version = "1.0-1"
 source = {
    url = "https://github.com/iamalbert/torch-word-emb" -- We don't have one yet
 }

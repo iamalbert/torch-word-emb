@@ -14,17 +14,7 @@
 
 typedef char (*DICT)[MAX_WORD_LEN];
 
-static void normalize(float *vec, size_t dim){
-    float len = 0;
-    int i;
-    for( i = 0; i < dim; i++){
-        len += vec[i] * vec[i];
-    }
-    len = sqrt(len);
-    for( i = 0; i < dim; i++){
-        vec[i] /= len;
-    }
-}
+
 
 static int read_vectors( FILE*fp, DICT words, float * storage, size_t dim, size_t n_word ){
 

@@ -10,12 +10,6 @@
 
 #define LUASTATE lua_State *L
 
-#define Real Float
-#define real float
-
-#define torch_(NAME) TH_CONCAT_3(torch_, Real, NAME)
-#define torch_Tensor TH_CONCAT_STRING_3(torch., Real, Tensor)
-
 int load_word2vec_bin( LUASTATE );
 
 

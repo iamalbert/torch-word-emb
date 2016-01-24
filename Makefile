@@ -5,6 +5,8 @@
 
 #CFLAGS ?=-std=c99 -Wall -pedantic -O2 -I$(LUA_INCDIR)/TH -I$(LUA_INCDIR)
 
+all: wordemb.so
+
 wordemb.so: wordemb.c
 	@echo --- build
 	@echo CFLAGS $(CFLAGS)
@@ -15,7 +17,7 @@ wordemb.so: wordemb.c
 	@echo LUA $(LUA)
 	$(CC) $(CFLAGS) -fpic -shared -o $@ $^
 
-install:
+install: wordemb.so
 	@echo --- install
 	@echo INST_PREFIX: $(PREFIX)
 	@echo INST_BINDIR: $(BINDIR)
@@ -23,6 +25,9 @@ install:
 	@echo INST_LUADIR: $(LUADIR)
 	@echo INST_CONFDIR: $(CONFDIR)
 
+	#mkdir $(PREFIX)
+	#stat $(LIBDIR)
+	#mkdir -p $(LIBDIR)
 	cp wordemb.so $(LIBDIR)
 
 clean:

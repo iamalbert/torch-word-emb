@@ -51,7 +51,7 @@ static int set_return_vars( LUASTATE, THTensor *self, DICT words, size_t dim, si
         lua_pushinteger(L, i+1);
         lua_setfield(L, -2, words[i] );
     }
-    lua_setfield(L, -2, "word");
+    lua_setfield(L, -2, "words");
 
     luaT_pushudata(L, self, torch_Tensor);
     lua_setfield(L, -2, "vec");

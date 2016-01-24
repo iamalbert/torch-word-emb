@@ -23,7 +23,7 @@ local w2v = wordemb.load_word2vec_bin("/path/to/word2vec/model.bin")
 
 ```lua
 print(w2v.vec:size())
-print(w2v.vec[ w2v.words["apple"] )
+print(w2v.vec[ w2v.words["apple"] ] )
 ```
 
 

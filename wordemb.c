@@ -161,7 +161,7 @@ int load_glove_text( LUASTATE ){
     size_t dim    = get_tokens_in_first_line(fp) - 1;
     size_t n_word = get_line_numbers(fp);
 
-    printf("%zu %zu\n", n_word, dim );
+    //printf("%zu %zu\n", n_word, dim );
 
     return load_word_embedding(L, fp, dim, n_word, 0, 0);
 }

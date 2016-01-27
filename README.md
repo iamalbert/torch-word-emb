@@ -1,4 +1,4 @@
-# torch-word-emb
+#torch - word - emb
 Load your word embeddings to Torch tensor.
 
 
@@ -37,4 +37,3 @@ read word2vec text-format model from `path`.
 
 ### wordemb.load_glove_text(path)
 read GloVe text-format model from `path`.
-

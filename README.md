@@ -18,8 +18,12 @@ local wordemb = require 'wordemb'
 local w2v = wordemb.load_word2vec_bin("/path/to/word2vec/model.bin")
 ```
 
-`load_word2vec_bin` returns a table of two fields. `vec` is torch FloatTensor of size `V x D`, where `V` is the vocabulary size and `D` is the dimension of word2vec.
-`words` is a table of (word,offset) pairs, repesenting the corresponding position of such word in `vec`.
+### wordemb.load_word2vec_bin(path)
+read word2vec binary model from `path`.
+
+returns a table of two fields.
+  - `vec` is a torch FloatTensor of size `V x D`, where `V` is the vocabulary size and `D` is the dimension of word2vec.
+  - `words` is a table of (word,offset) pairs, repesenting the corresponding position of such word in `vec`.
 
 ```lua
 print(w2v.vec:size())

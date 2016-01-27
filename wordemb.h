@@ -11,6 +11,8 @@
 #define LUASTATE lua_State *L
 
 int load_word2vec_bin( LUASTATE );
+int load_word2vec_text( LUASTATE );
+int load_glove_text( LUASTATE );
 
 
 #endif

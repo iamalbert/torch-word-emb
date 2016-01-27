@@ -1,9 +1,9 @@
-#TORCH_DIR=$(realpath $(dir $(shell which th))../)
+TORCH_DIR=$(realpath $(dir $(shell which th))../)
 
-#LUA_INCDIR ?= $(TORCH_DIR)/include
-#LUA_LIBDIR ?= $(TORCH_DIR)/lib
+LUA_INCDIR ?= $(TORCH_DIR)/include
+LUA_LIBDIR ?= $(TORCH_DIR)/lib
 
-#CFLAGS ?=-std=c99 -Wall -pedantic -O2 -I$(LUA_INCDIR)/TH -I$(LUA_INCDIR)
+CFLAGS ?=-std=c99 -Wall -pedantic -O2 -I$(LUA_INCDIR)/TH -I$(LUA_INCDIR)
 
 all: wordemb.so
 

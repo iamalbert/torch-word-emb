@@ -14,8 +14,6 @@ luarocks install torch-word-emb/torch-word-emb-1.1-4.rockspec
 
 ```lua
 local wordemb = require 'wordemb'
-
-local w2v = wordemb.load_word2vec_bin("/path/to/word2vec/model.bin")
 ```
 
 ### wordemb.load_word2vec_bin(path)
@@ -26,6 +24,7 @@ returns a table of two fields.
   - `words` is a table of (word,offset) pairs, repesenting the corresponding position of such word in `vec`.
 
 ```lua
+local w2v = wordemb.load_word2vec_bin("/path/to/word2vec/model.bin")
 print(w2v.vec:size())
 print(w2v.vec[ w2v.words["apple"] ] )
 ```
@@ -33,6 +32,6 @@ print(w2v.vec[ w2v.words["apple"] ] )
 ### wordemb.load_word2vec_text(path)
 read word2vec text-format model from `path`.
 
-### wordemb.load_glove_text(path, n_word, n_dim)
-read GloVe text-format model from `path`. You have to provide size of vocabulary (`n_word`) and the dimension of word vector (`n_dim`) since GloVe does not include them in its output model.
+### wordemb.load_glove_text(path)
+read GloVe text-format model from `path`.
 

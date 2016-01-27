@@ -58,7 +58,6 @@ static void allocate_data(
 
 
 static int set_return_vars( LUASTATE, THTensor *self, DICT words, size_t dim, size_t n_word ){
-    THTensor_(renorm)(self, self, 2, 1, 1);
 
     lua_newtable(L);
 
@@ -75,7 +74,7 @@ static int set_return_vars( LUASTATE, THTensor *self, DICT words, size_t dim, si
     return 1;
 }
 
-static int load_word_embedding(LUASTATE, FILE*fp, size_t dim, size_t n_word, int is_bin ){
+static int load_word_embedding(LUASTATE, FILE*fp, size_t dim, size_t n_word, int is_bin, int to_renorm ){
  
     THTensor *self;
     DICT word;
@@ -86,9 +85,14 @@ static int load_word_embedding(LUASTATE, FILE*fp, size_t dim, size_t n_word, int
     }else{
         read_vectors_text( fp, word, THTensor_(data)(self), dim, n_word );
     }
+
+    if( to_renorm ){
+        THTensor_(renorm)(self, self, 2, 1, 1);
+    }
     return set_return_vars(L, self, word, dim, n_word);
 
 }
+
 
 int load_word2vec_bin( LUASTATE ){
     const char * filepath = luaL_checklstring(L, 1, NULL);
@@ -101,7 +105,7 @@ int load_word2vec_bin( LUASTATE ){
     fgetc(fp);
     //printf("%zu %zu\n", n_word, dim );
 
-    return load_word_embedding(L, fp, dim, n_word, 1);
+    return load_word_embedding(L, fp, dim, n_word, 1, 1);
 }
 int load_word2vec_text( LUASTATE ){
     const char * filepath = luaL_checklstring(L, 1, NULL);
@@ -114,17 +118,52 @@ int load_word2vec_text( LUASTATE ){
     fgetc(fp);
     //printf("%zu %zu\n", n_word, dim );
 
-    return load_word_embedding(L, fp, dim, n_word, 0);
+    return load_word_embedding(L, fp, dim, n_word, 0, 1);
+}
+
+static int get_line_numbers(FILE *fp){
+    int cnt = 0;
+    int ch = 0;
+    do{
+        ch = fgetc(fp);
+        if( ch == '\n' ) cnt ++;
+    }while( ch != EOF );
+
+    rewind(fp);
+    return cnt;
+}
+static int get_tokens_in_first_line(FILE*fp){
+    int cnt = 0;
+    int ch = 0, last = 0;
+    do{
+        ch = fgetc(fp);
+        if( ch == '\n'){
+           if( last != ' ' && last != 0 ){
+               cnt++;
+           }
+        }else{
+            if(  last == ' ' ){
+                cnt++;
+            }
+        }
+        last = ch;
+    }while( ch != '\n' );
+    rewind(fp);
+    return cnt;
 }
 int load_glove_text( LUASTATE ){
     const char * filepath = luaL_checklstring(L, 1, NULL);
-    size_t n_word = luaL_checkinteger(L, 2 );
-    size_t dim    = luaL_checkinteger(L, 3 );
 
     FILE *fp = fopen(filepath, "rb");
+
     if( fp == NULL ){ return -1; }
 
-    return load_word_embedding(L, fp, dim, n_word, 0);
+    size_t dim    = get_tokens_in_first_line(fp) - 1;
+    size_t n_word = get_line_numbers(fp);
+
+    printf("%zu %zu\n", n_word, dim );
+
+    return load_word_embedding(L, fp, dim, n_word, 0, 0);
 }
 
 

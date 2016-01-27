@@ -1,14 +1,17 @@
 # torch-word-emb
-load word embeddings to Torch tensor.
+Load your word embeddings to Torch tensor.
 
 
 ## Install
 Torch 7 required.
 ```
-git clone https://github.com/iamalbert/torch-word-emb
-luarocks install torch-word-emb/torch-word-emb-1.1-4.rockspec
+luarocks install torch-word-emb
 ```
-
+or
+```
+git clone https://github.com/iamalbert/torch-word-emb
+luarocks install torch-word-emb/torch-word-emb-1.2-0.rockspec
+```
 
 ## Usage
 

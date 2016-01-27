@@ -1,4 +1,4 @@
-#torch - word - emb
+#torch-word-emb
 Load your word embeddings to Torch tensor.
 
 

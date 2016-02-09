@@ -23,9 +23,10 @@ static int read_vectors_bin( FILE*fp, DICT words, double * storage, size_t dim, 
 
         fscanf(fp, "%s", words[i] );
 
+
         fgetc(fp); // delete ' '
 
-        fread( vector, sizeof(double), dim, fp );
+        fread( vector, sizeof(float), dim, fp );
 
         fgetc(fp); // delete '\n'
 
@@ -103,7 +104,6 @@ int load_word2vec_bin( LUASTATE ){
 
     fscanf(fp, "%zu %zu", &n_word, &dim);
     fgetc(fp);
-    //printf("%zu %zu\n", n_word, dim );
 
     return load_word_embedding(L, fp, dim, n_word, 1, 1);
 }
@@ -114,7 +114,7 @@ int load_word2vec_text( LUASTATE ){
     FILE *fp = fopen(filepath, "rb");
     if( fp == NULL ){ return -1; }
 
-    fscanf(fp, "%zu %zu", &n_word, &dim);
+    fscanf(fp, "%zu %zu ", &n_word, &dim);
     fgetc(fp);
     //printf("%zu %zu\n", n_word, dim );
 

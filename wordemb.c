@@ -4,8 +4,8 @@
 
 #include "wordemb.h"
 
-#define Real Double
-#define real double
+#define Real Float
+#define real float
 
 #define torch_(NAME) TH_CONCAT_3(torch_, Real, NAME)
 #define torch_Tensor TH_CONCAT_STRING_3(torch., Real, Tensor)
@@ -16,10 +16,10 @@ typedef char (*DICT)[MAX_WORD_LEN];
 
 
 
-static int read_vectors_bin( FILE*fp, DICT words, double * storage, size_t dim, size_t n_word ){
+static int read_vectors_bin( FILE*fp, DICT words, float * storage, size_t dim, size_t n_word ){
 
     for( int i = 0; i < n_word; i++ ){
-        double *vector = storage + dim * i;
+        float *vector = storage + dim * i;
 
         fscanf(fp, "%s", words[i] );
 
@@ -30,19 +30,19 @@ static int read_vectors_bin( FILE*fp, DICT words, double * storage, size_t dim, 
 
         fgetc(fp); // delete '\n'
 
-        //printf("%s\t%lf %f %f %f\n", word, vector[0], vector[1], vector[dim-2], vector[dim-1] );
+        //printf("%s\t%f %f %f %f\n", words[i], vector[0], vector[1], vector[dim-2], vector[dim-1] );
     }
     return 0;
 }
-static int read_vectors_text( FILE*fp, DICT words, double * storage, size_t dim, size_t n_word ){
+static int read_vectors_text( FILE*fp, DICT words, float * storage, size_t dim, size_t n_word ){
 
     for( int i = 0; i < n_word; i++ ){
-        double *vector = storage + dim * i;
+        float *vector = storage + dim * i;
 
         fscanf(fp, "%s", words[i] );
 
         for( int j=0; j<dim; j++){
-            fscanf( fp, "%lf", & vector[j] );
+            fscanf( fp, "%f", & vector[j] );
         }
 
         //printf("%s\t%lf %f %f %f\n", word, vector[0], vector[1], vector[dim-2], vector[dim-1] );
@@ -88,8 +88,17 @@ static int load_word_embedding(LUASTATE, FILE*fp, size_t dim, size_t n_word, int
     }
 
     if( to_renorm ){
-        THTensor_(renorm)(self, self, 2, 1, 1);
+        float *storage = THTensor_(data)(self);
+
+        for ( size_t i=0; i < n_word; i++ ){
+            float * d = storage + i * dim;
+            float sum = 0;
+            for( size_t j = 0; j < dim ; j++ ) sum += d[j] * d[j];
+            sum = sqrt(sum);
+            for( size_t j = 0; j < dim ; j++ ) d[j] /= sum;
+        }
     }
+
     return set_return_vars(L, self, word, dim, n_word);
 
 }

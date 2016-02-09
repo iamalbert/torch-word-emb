@@ -1,4 +1,4 @@
-#torch - word - emb
+#torch-word-emb
 Load your word embeddings to Torch tensor.
 
 
@@ -23,8 +23,8 @@ local wordemb = require 'wordemb'
 read word2vec binary-format model from `path`.
 
 returns a table of two fields.
-  - `vec` is a torch FloatTensor of size `V x D`, where `V` is the vocabulary size and `D` is the dimension of word2vec.
-  - `words` is a table of (word,offset) pairs, repesenting the corresponding position of such word in `vec`.
+  - `vec` is a torch DoubleTensor of size `V x D`, where `V` is the vocabulary size and `D` is the dimension of word2vec.
+  - `words` is a table of (word,offset) pairs, each of which represents the corresponding index of such word in `vec`.
 
 ```lua
 local w2v = wordemb.load_word2vec_bin("/path/to/word2vec/model.bin")

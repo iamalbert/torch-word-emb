@@ -99,7 +99,9 @@ static int load_word_embedding(LUASTATE, FILE*fp, size_t dim, size_t n_word, int
         }
     }
 
-    return set_return_vars(L, self, word, dim, n_word);
+    int ret = set_return_vars(L, self, word, dim, n_word);
+    free(word);
+    return ret;
 
 }
 

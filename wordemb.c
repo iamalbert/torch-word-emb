@@ -114,7 +114,9 @@ int load_word2vec_bin( LUASTATE ){
     fscanf(fp, "%zu %zu", &n_word, &dim);
     fgetc(fp);
 
-    return load_word_embedding(L, fp, dim, n_word, 1, 1);
+    int ret = load_word_embedding(L, fp, dim, n_word, 1, 1);
+    fclose(fp);
+    return ret;
 }
 int load_word2vec_text( LUASTATE ){
     const char * filepath = luaL_checklstring(L, 1, NULL);
@@ -127,7 +129,9 @@ int load_word2vec_text( LUASTATE ){
     fgetc(fp);
     //printf("%zu %zu\n", n_word, dim );
 
-    return load_word_embedding(L, fp, dim, n_word, 0, 1);
+    int ret = load_word_embedding(L, fp, dim, n_word, 0, 1);
+    fclose(fp);
+    return ret;
 }
 
 static int get_line_numbers(FILE *fp){

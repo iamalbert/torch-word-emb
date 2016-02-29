@@ -172,7 +172,9 @@ int load_glove_text( LUASTATE ){
 
     //printf("%zu %zu\n", n_word, dim );
 
-    return load_word_embedding(L, fp, dim, n_word, 0, 0);
+    int ret = load_word_embedding(L, fp, dim, n_word, 0, 0);
+    fclose(fp);
+    return ret;
 }
 
 

@@ -10,7 +10,7 @@ luarocks install torch-word-emb
 or
 ```
 git clone https://github.com/iamalbert/torch-word-emb
-luarocks install torch-word-emb/torch-word-emb-1.3-0.rockspec
+cd torch-word-emb && luarocks make
 ```
 
 ## Usage

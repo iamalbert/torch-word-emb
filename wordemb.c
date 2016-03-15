@@ -10,7 +10,7 @@
 #define torch_(NAME) TH_CONCAT_3(torch_, Real, NAME)
 #define torch_Tensor TH_CONCAT_STRING_3(torch., Real, Tensor)
 
-#define MAX_WORD_LEN 2048
+#define MAX_WORD_LEN 2048*2
 
 typedef char (*DICT)[MAX_WORD_LEN];
 
@@ -28,9 +28,8 @@ static int read_vectors_bin( FILE*fp, DICT words, float * storage, size_t dim, s
 
         fread( vector, sizeof(float), dim, fp );
 
-        fgetc(fp); // delete '\n'
+        // the following '\n' is optional, leave to next fscanf
 
-        //printf("%s\t%f %f %f %f\n", words[i], vector[0], vector[1], vector[dim-2], vector[dim-1] );
     }
     return 0;
 }
@@ -45,7 +44,6 @@ static int read_vectors_text( FILE*fp, DICT words, float * storage, size_t dim, 
             fscanf( fp, "%f", & vector[j] );
         }
 
-        //printf("%s\t%lf %f %f %f\n", word, vector[0], vector[1], vector[dim-2], vector[dim-1] );
     }
     return 0;
 }
